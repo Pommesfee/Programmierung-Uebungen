@@ -20,10 +20,18 @@ public class MethodicalPyramid extends GraphicsProgram {
 		this.setSize(500, 500);
 
 		input = readInt("Please specify the number of bricks in the bottom layer:");
-
-		drawPyramid();
+		//Only draws the pyramid if there is at least one brick in the bottom layer or as much bricks the input variable can carry on its shoulders
+		if (input > 0 && input <= Integer.MAX_VALUE) {
+			drawPyramid();
+		} else {
+			println("Input not sufficient.");
+		}
 	}
 
+	/**
+	 * Method that will draw the pyramid with the
+	 * amount of bricks in the bottom layer specified by the user.
+	 */
 	private void drawPyramid() {
 
 		// number of tiles in bottom tile == number of layers
@@ -51,6 +59,7 @@ public class MethodicalPyramid extends GraphicsProgram {
 	 *         {@code layerIndex} is invalid.
 	 */
 	public Color layerColor(int layerIndex, int numberOfLayers) {
+		
 		if (layerIndex < 0 || layerIndex >= numberOfLayers) {
 			return null;
 		} else if (layerIndex == (numberOfLayers - 1)) {
