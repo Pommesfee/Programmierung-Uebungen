@@ -1,7 +1,7 @@
 package Serie5.Vehicles;
 
 /**
- * Class that represents a Steamship
+ * Class that represents a Steamship.
  * @author Pommesfee
  * @version 1.0
  * @since 1.0
@@ -14,10 +14,10 @@ public class SteamShip extends Vehicle {
 	 * @param length
 	 */
 	public SteamShip(double power, double displacementTonnage, double length) {
-		this.power = power;
-		this.dragCoefficient = 0.3;
-		this.elementDensity = 1.028;
-		this.frontSurface = calculateFrontSurface(displacementTonnage, length);
+		this.P = power;
+		this.cw = 0.3;
+		this.p = 1.028;
+		this.A = calculateFrontSurface(displacementTonnage, length);
 	}
 	
 	/**
@@ -44,7 +44,7 @@ public class SteamShip extends Vehicle {
 	 */
 	@Override
 	public int getMaximumVelocity() {
-		return (int) convertKmHtoKnots(Math.cbrt((2*power)/(elementDensity*frontSurface*dragCoefficient)));
+		return (int) convertKmHtoKnots(Math.cbrt((2*P)/(p*A*cw)));
 	}
 	
 	

@@ -13,10 +13,10 @@ public class Car extends Vehicle {
 	 * @param power Power in PS
 	 */
 	public Car(double power) {
-		this.power = convertPStoWatt(power);
-		this.frontSurface = 2.5;
-		this.elementDensity = 1.3;
-		this.dragCoefficient = 0.35;
+		this.P = convertPStoWatt(power);
+		this.A = 2.5;
+		this.p = 1.3;
+		this.cw = 0.35;
 	}
 	
 	/**
@@ -33,7 +33,7 @@ public class Car extends Vehicle {
 	 */
 	@Override
 	public int getMaximumVelocity() {
-		return (int) Math.cbrt((2*power)/(elementDensity*frontSurface*dragCoefficient));
+		return (int) Math.cbrt((2*P)/(p*A*cw));
 	}
 
 }
