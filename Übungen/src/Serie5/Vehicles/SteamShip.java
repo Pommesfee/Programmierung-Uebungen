@@ -1,7 +1,7 @@
 package Serie5.Vehicles;
 
 /**
- * Class that represents a Steamship
+ * Class that represents a Steamship.
  * @author Pommesfee
  * @version 1.0
  * @since 1.0
