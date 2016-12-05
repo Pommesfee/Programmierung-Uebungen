@@ -6,7 +6,7 @@ package Serie5.Vehicles;
  * @version 1.0
  * @since 1.0
  */
-public class SteamShip extends Vehicle {
+public class SteamShip extends WaterVehicle {
 	
 	/**
 	 * A new {@code SteamShip} will be created.
@@ -14,10 +14,10 @@ public class SteamShip extends Vehicle {
 	 * @param length
 	 */
 	public SteamShip(double power, double displacementTonnage, double length) {
-		this.P = power;
-		this.cw = 0.3;
-		this.p = 1.028;
-		this.A = calculateFrontSurface(displacementTonnage, length);
+		this.power = power;
+		this.dragCoefficient = 0.3;
+		this.elementDensity = (1.028 * 1000); //*1000 because the ships formula for p(elementDensity) calculates with tons per m^3 and if we use the car formula we need to have kg/m^3.
+		this.frontSurface = calculateFrontSurface(displacementTonnage, length);
 	}
 	
 	/**
@@ -29,24 +29,4 @@ public class SteamShip extends Vehicle {
 	private double calculateFrontSurface(double displacementTonnage, double length) {
 		return displacementTonnage/length;
 	}
-	
-	/**
-	 * Converts km/h to knots.
-	 * @param speed Speed in km/h
-	 * @return Speed in knots
-	 */
-	private double convertKmHtoKnots(double speed) {
-		return (speed / 1.85);
-	}
-	
-	/**
-	 * Returns the maximum speed of a {@code SteamShip} in knots.
-	 */
-	@Override
-	public int getMaximumVelocity() {
-		return (int) convertKmHtoKnots(Math.cbrt((2*P)/(p*A*cw)));
-	}
-	
-	
-
 }

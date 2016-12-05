@@ -1,36 +1,23 @@
 package Serie5.Vehicles;
 
-public class RowingBoat extends Vehicle {
+public class RowingBoat extends WaterVehicle {
 	
-	private static final int powerPerRower = 100; //Watt
+	private static final int POWER_PER_ROWER = 100;
 	
-	public RowingBoat(int rowerCount, double width, double drought) { 
-		this.P = calculatePower(rowerCount);
-		this.cw = 0.3;
-		this.p = 1.028;
-		this.A = calculateFrontSurface(width, drought);
-	}
-	
-	private double calculatePower(double rowerCount) {
-		return rowerCount * powerPerRower;
-	}
-	
-	private double calculateFrontSurface(double width, double drought) {
-		return (0.5 * width * drought);
+	public RowingBoat(int manRowing, double width, double draught) {
+		this.frontSurface = calculateFrontSurface(width, draught);
+		this.dragCoefficient = 0.3;
+		this.elementDensity = (1.028 * 1000); //*1000 because the ships formula for p(elementDensity) calculates with tons per m^3 and if we use the car formula we need to have kg/m^3.
+		this.power = (manRowing * POWER_PER_ROWER);
 	}
 	
 	/**
-	 * Converts km/h to knots.
-	 * @param speed Speed in km/h
-	 * @return Speed in knots
+	 * Calculates the front surface of a {@code RowingBoat}.
+	 * @param width
+	 * @param draught
+	 * @return Area of front surface
 	 */
-	private double convertKmHtoKnots(double speed) {
-		return (speed / 1.85);
+	private double calculateFrontSurface(double width, double draught) {
+		return ((1/2) * width * draught);
 	}
-	
-	@Override
-	public int getMaximumVelocity() {
-		return (int) convertKmHtoKnots(Math.cbrt((2*P)/(p*A*cw)));
-	}
-
 }

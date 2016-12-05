@@ -13,19 +13,10 @@ public class Car extends Vehicle {
 	 * @param power Power in PS
 	 */
 	public Car(double power) {
-		this.P = convertPStoWatt(power);
-		this.A = 2.5;
-		this.p = 1.3;
-		this.cw = 0.35;
-	}
-	
-	/**
-	 * Converts the power of a car from PS to Watt.
-	 * @param power Power in ps
-	 * @return Power in Watt
-	 */
-	private double convertPStoWatt(double power) {
-		return (power * 735.49875);
+		this.power = Vehicle.convertPStoWatt(power);
+		this.frontSurface = 2.5;
+		this.dragCoefficient = 0.35;
+		this.elementDensity = 1.3;
 	}
 	
 	/**
@@ -33,7 +24,7 @@ public class Car extends Vehicle {
 	 */
 	@Override
 	public int getMaximumVelocity() {
-		return (int) Math.cbrt((2*P)/(p*A*cw));
+		return (int) Math.cbrt((2*power)/(elementDensity*frontSurface*dragCoefficient));
 	}
 
 }
