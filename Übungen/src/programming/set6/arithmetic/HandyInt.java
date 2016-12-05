@@ -47,7 +47,7 @@ public class HandyInt {
 	 */
 	public HandyInt add(HandyInt other) {
 		int result = theInt + other.getInt();
-		return new HandyInt(result);
+		return new HandyInt(result); //Fixed Error by returning a new HandyInt instead of modifying the old one
 	}
 	
 	/**
@@ -60,7 +60,7 @@ public class HandyInt {
 	 */
 	public HandyInt sub(HandyInt other) {
 		int result = theInt - other.getInt();
-		return new HandyInt(result);
+		return new HandyInt(result); //Fixed Error by returning a new HandyInt instead of modifying the old one
 	}
 
 	@Override
