@@ -1,20 +1,34 @@
 package programming.set6.date;
 
 /**
- * Represents a Date consisting of the year, month and day (day of the given month).
- * Offers utility to find out how far apart two dates in the same year are and more.
- * Will check if a date is valid on initialization.
+ * Represents a Date consisting of the year, month and day (day of the given
+ * month). Offers utility to find out how far apart two dates in the same year
+ * are and more. Will check if a date is valid on initialization.
+ * 
  * @author Pommesfee
  * @version 1.0
  * @since 1.0
  */
 public class Date {
 
+	/*
+	 * Explanation:
+	 *  - super 
+	 *  - this
+	 *  - static 
+	 *  - null 
+	 *  - Local variable 
+	 *  - Instance variable 
+	 *  - Class variable 
+	 *  - Constructor
+	 * 
+	 */
+
 	// Constants for easier use. No Javadoc needed.
 	private static final int JANUARY = 1;
 	private static final int FEBRUARY = 2;
 	private static final int MARCH = 3;
-	private static final int APRIl = 4;
+	private static final int APRIL = 4;
 	private static final int MAY = 5;
 	private static final int JUNE = 6;
 	private static final int JULY = 7;
@@ -38,8 +52,9 @@ public class Date {
 	private final int day;
 
 	/**
-	 * Will create a new {@code Date} object and check if the supplied parameters
-	 * are valid.
+	 * Will create a new {@code Date} object and check if the supplied
+	 * parameters are valid.
+	 * 
 	 * @param year
 	 * @param month
 	 * @param day
@@ -61,20 +76,21 @@ public class Date {
 	 * @return The days of the month in the given year
 	 */
 	public static int getDaysInMonth(int year, int month) {
-		
-		//Check needed because static method can be called without
-		//validation check in constructor. Validation method
-		//is not applicable here because we do not have a day.
+
+		// Check needed because static method can be called without
+		// validation check in constructor. Validation method
+		// is not applicable here because we do not have a day.
 		if (year < 0) {
 			return 0;
 		}
-		
-		//Return the number of days in a given month
+
+		// Return the number of days in a given month
 		switch (month) {
 		case JANUARY:
 			return 31;
 		case FEBRUARY:
-			//Check if we have a leap year and adjust the days of February accordingly
+			// Check if we have a leap year and adjust the days of February
+			// accordingly
 			if ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0))) {
 				return 29;
 			} else {
@@ -82,7 +98,7 @@ public class Date {
 			}
 		case MARCH:
 			return 31;
-		case APRIl:
+		case APRIL:
 			return 30;
 		case MAY:
 			return 31;
@@ -140,11 +156,11 @@ public class Date {
 	 */
 	public int dayOfYear() {
 		int dayOFYear = 0;
-		//Add up the amount of days in all month prior to the current month
+		// Add up the amount of days in all month prior to the current month
 		for (int i = 1; i < this.month; i++) {
 			dayOFYear += getDaysInMonth(year, i);
 		}
-		//Then the day of the current month is added and the resul is returned
+		// Then the day of the current month is added and the resul is returned
 		dayOFYear += day;
 		return dayOFYear;
 	}
@@ -158,7 +174,7 @@ public class Date {
 	 */
 	public int sameYearDiff(Date other) {
 		if (year != other.year) {
-			return 0; //We only produce an output if we are in the same year
+			return 0; // We only produce an output if we are in the same year
 		} else {
 			return other.dayOfYear() - dayOfYear();
 		}
@@ -166,6 +182,7 @@ public class Date {
 
 	/**
 	 * Getter for variable year
+	 * 
 	 * @return The year of the date
 	 */
 	public int getYear() {
@@ -174,6 +191,7 @@ public class Date {
 
 	/**
 	 * Getter for variable month
+	 * 
 	 * @return the month of the date
 	 */
 	public int getMonth() {
@@ -182,14 +200,15 @@ public class Date {
 
 	/**
 	 * Getter for variable day
+	 * 
 	 * @return The day of the date
 	 */
 	public int getDay() {
 		return day;
 	}
 
-	//Creates a string representation of the date in the form of
-	//November 20, 2016.
+	// Creates a string representation of the date in the form of
+	// November 20, 2016.
 	@Override
 	public String toString() {
 
@@ -205,7 +224,7 @@ public class Date {
 		case MARCH:
 			month = "March";
 			break;
-		case APRIl:
+		case APRIL:
 			month = "April";
 			break;
 		case MAY:
