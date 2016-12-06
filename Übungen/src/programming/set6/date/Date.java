@@ -12,16 +12,52 @@ package programming.set6.date;
 public class Date {
 
 	/*
-	 * Explanation:
-	 *  - super 
-	 *  - this
-	 *  - static 
-	 *  - null 
-	 *  - Local variable 
-	 *  - Instance variable 
-	 *  - Class variable 
-	 *  - Constructor
+	 * Explanation: 
+	 * - super: Keyword for calling constructors and method of the direct superclass. 
+	 * 			super() or super(type argument) would call a constructor of a superclass.
+	 * 			super.methodOfSuperClass() would call a method of a super class.
 	 * 
+	 * - this: Used to reference instance variables and constructors of the current object.
+	 * 			in the constructor of a class you could call another constructor of the same class with this().
+	 * 			this.x would specifically reference the instance variable of a class to avoid shadowing with local variables.
+	 * 
+	 * - static: Declares that a method or variable can be accessed outside of object context. no instance of an object is needed.
+	 * 			static int i; would we a static variable that can be accessed without needing an instance of the class i is defined in.
+	 * 			static int getI(); the same principle as above applies with getI() being a static method.
+	 * 
+	 * - null: "Placeholder" that is used when a variable does not hold a reference to an object
+	 * 			Object o; when the variable o is declared, because we do not initialize it with new, it would be initialized with null instead,
+	 * 			because it does not hold a reference to an object.
+	 * 
+	 * - Local variable: Variable that is declared inside a code-block and lives on the stack until the end of the block is reached.
+	 * 					 The scope of the local variable extends to all code blocks that lie within the code block the variable is declared in.
+	 * 					 public void someMethod() {
+	 * 						int someLocalVariable;
+	 * 					 }
+	 * 
+	 * - Instance variable: Variable that each instance/object of a class has its own "version" of. They are declared directly inside the class.
+	 * 						public Class TestClass {
+	 * 							int someInstanceVariable;
+	 * 						}
+	 * 
+	 * - Class variable: A static variable that has no relation to an instance of the class, only to the class itself. 
+	 * 					 Class variables are initialized when the class is first used during the runtime of a program.
+	 * 						public Class TestClass {
+	 * 							static int someInstanceVariable;
+	 * 						} 
+	 * 
+	 * - Constructor: Instantiates a new object from the "blueprint" of a class. Every class has a default constructor with
+	 * 				  an empty parameter list if no constructor is explicitly defined.
+	 * 						public Class TestClass {
+	 * 							public TestClass() {
+	 * 								//when the constructor is called
+	 * 								//we could do things to give the object a
+	 * 								//specific state
+	 * 							}
+	 * 							public TestClass(int i) {
+	 * 								// also a constructor of TestClass. Constructors can be overloaded like methods.
+	 * 							}
+	 * 						} 		  
 	 */
 
 	// Constants for easier use. No Javadoc needed.
@@ -209,6 +245,9 @@ public class Date {
 
 	// Creates a string representation of the date in the form of
 	// November 20, 2016.
+	/**
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 
