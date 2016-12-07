@@ -1,4 +1,4 @@
-package Serie5.Vehicles;
+package vehicle;
 
 /**
  * Class that represents a Car.
@@ -12,19 +12,17 @@ public class Car extends Vehicle {
 	 * A new {@code Car} will be created.
 	 * @param power Power in PS
 	 */
-	public Car(double power) {
+	public Car(String description, double power) {
+		this.description = description;
 		this.power = Vehicle.convertPStoWatt(power);
 		this.frontSurface = 2.5;
 		this.dragCoefficient = 0.35;
 		this.elementDensity = 1.3;
 	}
 	
-	/**
-	 * Returns the maximum speed of a {@code Car} in km/h.
-	 */
 	@Override
-	public int getMaximumVelocity() {
-		return (int) Math.cbrt((2*power)/(elementDensity*frontSurface*dragCoefficient));
+	public String toString() {
+		return this.description +  " (" + Vehicle.convertWatttoPS(this.power) + "): " + this.getMaximumVelocity() + "km/h";
 	}
 
 }
