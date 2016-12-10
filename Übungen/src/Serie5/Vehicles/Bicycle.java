@@ -12,7 +12,7 @@ public class Bicycle extends Vehicle {
 	//TODO calculate cd and A
 	
 	public Bicycle(int mode) {
-		this.P = 160;
+		this.power = 160;
 		setValues(mode);
 	}
 	
@@ -34,12 +34,12 @@ public class Bicycle extends Vehicle {
 			System.out.println("Error");
 			return;
 		}
-		p = 1.2;
+		dragCoefficient = 1.2;
 	}
 
 	@Override // m/s
 	public int getMaximumVelocity() {
-		return (int) (Math.cbrt(a+Math.sqrt(Math.pow(a, 2) + Math.pow(b, 3))) + (Math.cbrt(a-Math.sqrt(Math.pow(a, 2) + Math.pow(b, 3)))) - ((2/3.) * (0.1/cd*A*p)));
+		return (int) (Math.cbrt(a+Math.sqrt(Math.pow(a, 2) + Math.pow(b, 3))) + (Math.cbrt(a-Math.sqrt(Math.pow(a, 2) + Math.pow(b, 3)))) - ((2/3.) * (0.1/power)));
 	}
 
 	
