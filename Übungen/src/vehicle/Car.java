@@ -1,4 +1,4 @@
-package Serie5.Vehicles;
+package vehicle;
 
 /**
  * Class that represents a Car.

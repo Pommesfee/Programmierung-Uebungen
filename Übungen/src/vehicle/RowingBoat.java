@@ -1,4 +1,4 @@
-package Serie5.Vehicles;
+package vehicle;
 
 public class RowingBoat extends WaterVehicle {
 	
