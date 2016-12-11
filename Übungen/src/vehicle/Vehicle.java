@@ -1,5 +1,14 @@
 package vehicle;
 
+/**
+ * Class that defines all information 
+ * that all vehicles should share and also offers
+ * some utility like converting km/h to knots.
+ *  
+ * @author Pommesfee
+ * @version 1.0
+ * @since 1.0
+ */
 public abstract class Vehicle {
 
 	/**
@@ -21,7 +30,17 @@ public abstract class Vehicle {
 	 */
 	protected double elementDensity;
 	
-	public abstract int getMaximumVelocity();
+	/**
+	 * Text that describes the model of a car for example
+	 */
+	protected String description;
+	
+	/**
+	 * Returns the maximum speed of a {@code Vehicle} in km/h.
+	 */
+	public int getMaximumVelocity() {
+		return (int) (Math.cbrt((2*power)/(elementDensity*frontSurface*dragCoefficient)) * 3.6);
+	}
 	
 	/**
 	 * Converts the power of a car from PS to Watt.
@@ -30,6 +49,15 @@ public abstract class Vehicle {
 	 */
 	public static double convertPStoWatt(double power) {
 		return (power * 735.49875);
+	}
+	
+	/**
+	 * Converts the power of a car from Watt to PS.
+	 * @param power Power in Watt
+	 * @return Power in PS
+	 */
+	public static double convertWatttoPS(double power) {
+		return (power / 735.49875);
 	}
 	
 	/**

@@ -1,2 +1,4 @@
 #Programmierung-Uebungen
-Repository die LÃ¶sungen zu den einzelnen Aufgaben der verschiedenen Serien enthÃ¤lt.
+Repository die Lösungen zu den einzelnen Aufgaben der verschiedenen Serien enthält.
+
+Für viele Aufgaben wird die ACM Bibliothek benötigt.

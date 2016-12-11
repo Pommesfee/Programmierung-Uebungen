@@ -53,7 +53,7 @@ public class MathQuiz extends ConsoleProgram {
 		int operand2 = 0; // Operand2 for calculation
 		int correctResult = 0; // Result initialized in each case. see below.
 
-		// TODO Comments
+		// Will generate the problem depending on which operator got rolled.
 		switch (randomMode) {
 		case 0: // Case for subtraction
 			operator = "-";

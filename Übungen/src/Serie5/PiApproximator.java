@@ -3,6 +3,11 @@ package Serie5;
 import acm.graphics.GPoint;
 import acm.program.GraphicsProgram;
 
+/**
+ * @author Pommesfee
+ * @version 1.0
+ * @since 1.0
+ */
 public class PiApproximator extends GraphicsProgram {
 
 	@Override
