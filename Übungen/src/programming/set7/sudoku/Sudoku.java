@@ -67,8 +67,9 @@ public class Sudoku extends NumberBoard {
 		String[] lines = new String[9];
 		
 		for (int i = 0; i < 9; i++) {
+			lines[i] = "";
 			for (int j = 0; j < 9; j++) {
-				lines[i] += getValueAt(i, j);
+				lines[i] += Integer.toString(getValueAt(i, j));
 			}
 		}
 		
