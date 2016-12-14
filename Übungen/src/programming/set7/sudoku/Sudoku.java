@@ -37,7 +37,7 @@ public class Sudoku extends NumberBoard {
 			// j represents each element of the row.
 			// If the value at the desired position is not empty the value
 			// will be stored in the array numberCount-rows.
-			// TODO adjust comments
+			// TODO adjust comments Do not forget Comments and Examples like in task
 			for (int i = 0; i < 9; i++) {
 				for (int j = 0; j < 9; j++) {
 					if (getValueAt(i, j) != EMPTY) {
