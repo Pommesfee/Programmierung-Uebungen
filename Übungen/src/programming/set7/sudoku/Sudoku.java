@@ -2,6 +2,9 @@ package programming.set7.sudoku;
 
 public class Sudoku extends NumberBoard {
 
+	private static final int MODE_COMPLETE = 1;
+	private static final int MODE_SELECTION = 2;
+
 	public Sudoku() {
 		super(9, 9);
 	}
@@ -9,27 +12,23 @@ public class Sudoku extends NumberBoard {
 	@Override
 	public void setValueAt(int row, int col, int value) {
 		if (value == EMPTY || (value >= 1 && value <= 9)) {
-			super.setValueAt(row - 1, col - 1, value);
+			super.setValueAt(row, col, value);
 		}
 	}
 
 	public boolean isValid() {
 
-		if (isValid(1)) {
-			if (!isValid(2)) {
-				return false;
+		if (isValid(MODE_COMPLETE)) {
+			if (isValid(MODE_SELECTION)) {
+				return true;
 			}
-		} else {
-			return false;
 		}
-
-		return true;
+		return false;
 	}
 
-	//TODO Look at selection method.. Anton
 	private boolean isValid(int mode) {
 
-		if (mode == 1) {
+		if (mode == MODE_COMPLETE) {
 			// Check rows and columns
 			int[] numberCount_rows = new int[9];
 			int[] numberCount_columns = new int[9];
@@ -59,49 +58,69 @@ public class Sudoku extends NumberBoard {
 				numberCount_rows = new int[9];
 				numberCount_columns = new int[9];
 			}
+			return true;
 		}
-		if (mode == 2) {
-			
-			int[] numberCount_small = new int[9];
-			
-			for (int i = 0; i < 3; i++) {
-				for (int j = 0; j < 3; j++) {
-					
-					for (int j2 = 0; j2 < 3; j2++) {
-						for (int k = 0; k < 3; k++) {
-							if (!(getValueAt(j2 + (i*3), k + (j*3)) == EMPTY)) {
-								numberCount_small[getValueAt(j2 + (i*3), k + (j*3)) - 1]++;
+		if (mode == MODE_SELECTION) {
+
+			int[] numberCount = new int[9];
+			int valueAt;
+
+			for (int startX = 0; startX < 3; startX++) {
+				for (int startY = 0; startY < 3; startY++) {
+					for (int i = 0; i < 3; i++) {
+						for (int j = 0; j < 3; j++) {
+							valueAt = getValueAt(i + (startX * 3), j + (startY * 3));
+							if (valueAt != EMPTY) {
+								numberCount[valueAt - 1]++;
 							}
 						}
 					}
-					for (int j2 = 0; j2 < numberCount_small.length; j2++) {
-						if(numberCount_small[j2] > 1) {
+					for (int i = 0; i < numberCount.length; i++) {
+						if (numberCount[i] > 1) {
 							return false;
 						}
 					}
+					numberCount = new int[9]; // Resets numberCount array after
+												// each checked field.
 				}
 			}
+			return true;
 		}
-
-		return true;
+		return false;
 	}
 
 	@Override
 	public String toString() {
 
 		String[] lines = new String[9];
-
+		int valueAt = 0;
+		String stringFromValue = "";
+		
 		for (int i = 0; i < 9; i++) {
 			lines[i] = "";
 			for (int j = 0; j < 9; j++) {
-				lines[i] += Integer.toString(getValueAt(i, j)) + " ";
+				
+				valueAt = getValueAt(i, j);
+				
+				if (valueAt == EMPTY) {
+					stringFromValue = " ";
+				} else {
+					stringFromValue = Integer.toString(getValueAt(i, j));
+				}
+
+				lines[i] += stringFromValue + " ";
 			}
 		}
 
+		// new lines
 		String finalString = "";
 
 		for (int i = 0; i < lines.length; i++) {
-			finalString += lines[i] + "\n";
+			if (i+1 == lines.length) {
+				finalString += lines[i];
+			} else {
+				finalString += lines[i] + "\n";
+			}
 		}
 
 		return finalString;

@@ -6,7 +6,12 @@ public class SudokuTest {
 		
 		Sudoku sudoku = new Sudoku();
 		
-		sudoku.setValueAt(1, 1, 5);
+		sudoku.setValueAt(0, 0, 5);
+		sudoku.setValueAt(0, 1, 5);
+		sudoku.setValueAt(0, 2, 5);
+		sudoku.setValueAt(0, 3, 5);
+		sudoku.setValueAt(0, 4, 5);
+		sudoku.setValueAt(0, 5, 5);
 		sudoku.setValueAt(3, 3, 5);
 		sudoku.setValueAt(2, 4, 5);
 		
