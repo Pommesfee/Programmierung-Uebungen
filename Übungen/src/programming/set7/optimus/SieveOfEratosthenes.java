@@ -40,7 +40,9 @@ public class SieveOfEratosthenes extends ConsoleProgram {
 		} else {
 
 			// Initialize array
-			numbers = new boolean[input + 1]; // + 1 because we otherwise we would miss the last prime number in some cases
+			numbers = new boolean[input + 1]; // + 1 because we otherwise we
+												// would miss the last prime
+												// number in some cases
 			Arrays.fill(numbers, true); // Because we cross out all numbers that
 										// are no primes we assume first that
 										// all numbers are primes
