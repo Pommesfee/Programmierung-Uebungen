@@ -15,10 +15,21 @@ import acm.program.ConsoleProgram;
  */
 public class SieveOfEratosthenes extends ConsoleProgram {
 
+	/* Explanation of terms: TODO Completed Comments
+	 * 
+	 * Array: Can be thought of as a "List". In memory the elements of an array a stored directly after
+	 * 		  each other and can be accessed by the index that is stored at the very top of the given array.
+	 * 		  Arrays are of a fixed size and can only contain objects or primitives of one type that can be chosen
+	 *		  when declaring the array.
+	 * 		  In this program we use an array because we have a "List" of numbers of a fixed size. The
+	 * 		  Array 
+	 * 
+	 */
+	
 	private int input; // Variable that stores user input
-	private boolean[] numbers; // Array that stores the information is a prime
+	private boolean[] numbers; // Array that stores the information if a number(indices intepreted as numbers) is a prime
 								// number or not
-
+	
 	@Override
 	public void run() {
 

@@ -13,6 +13,10 @@ import java.util.LinkedList;
 public class StatisticsCollector {
 
 	// List that holds the numbers
+	// HINT[from task 3] It is elegant to use a list here because we 
+	// do not know how many elements our list will contain and with a list
+	// we obtain flexibility and functionality, because we do not need to
+	// to think about resizing the array.
 	private LinkedList<Double> numbers = new LinkedList<Double>();
 
 	/**
