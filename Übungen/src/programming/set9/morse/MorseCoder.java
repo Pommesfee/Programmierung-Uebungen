@@ -1,10 +1,23 @@
 package programming.set9.morse;
 
+/**
+ * Utility to decode and encode sequences of morse-code/strings.
+ * @author PurifyPioneer
+ */
 public class MorseCoder {
+	
+	/*
+	 * We use the fact that we know exactly where in the array an item is.
+	 * So if our char A is at index 0 of the letters array, the morse-code representation
+	 * of A will be at index 0 in the morseCode array. And so on..
+	 * 
+	 */
 
+	//A letters our alphabet consists of
 	private static char[] letters = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
-								'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
+								'V', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
 
+	//The representation of our letters in morse-code
 	private static String[] morseCode = { ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---",
 									".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..",
 									".----", "..---", "...--", "....-", ".....", "-....", "--...", "---..", "----.", "-----"};
@@ -28,7 +41,9 @@ public class MorseCoder {
 	    for (String w: words) {
 	    	char[] chars = w.toCharArray();
 	    	for (char c : chars) {
-				result += getCharInMorse(c) + " ";
+				if (!(getCharInMorse(c).equalsIgnoreCase(""))) {
+					result += getCharInMorse(c) + " ";
+				}
 			} result += "\n";
 	    }
 	    return result;
@@ -60,15 +75,29 @@ public class MorseCoder {
 	    return result;
 	}
 	
+	/**
+	 * Tries to parse a char to a string that would be it's representation
+	 * in morse-code. The morse-code is stored in the morseCode array.
+	 * If the char can not be parsed, an empty string is returned.
+	 * @param c char to be parsed
+	 * @return string (morse-code) representing input char
+	 */
 	private static String getCharInMorse(char c) {
 		for (int i = 0; i < letters.length; i++) {
-			if (c == letters[i]) {
+			if (Character.toUpperCase(c) == letters[i]) {
 				return morseCode[i];
 			}
 		}
 		return "";
 	}
 	
+	/**
+	 * Pries to parse morse-code to a char. The valid chars
+	 * are defined in the letters array. If the parsing is not successful
+	 * the char NUL will be returned.
+	 * @param s string to be parsed (morse-code)
+	 * @return char representing input string (morse-code)
+	 */
 	private static char getMorseAsChar(String s) {
 		for (int i = 0; i < morseCode.length; i++) {
 			if (s.equalsIgnoreCase(morseCode[i])) {
