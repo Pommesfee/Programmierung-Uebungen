@@ -13,14 +13,14 @@ public class Tree extends GraphicsProgram {
 	private int heapBytes = 0;
 
 	//Stack grows up
-	private int stackAddress = 0xffffff;
+	private int stackAddress = 0xffffe4;
 
 	private int stackBytes = 0;
 
 	private int glineObjectCount = 0;
 	private int drawTreeCalls = 0;
-	private int depth = 1;
-	private int maxDepth = 1;
+	private int depth = 0;
+	private int maxDepth = 0;
 
 	public void run() {
 		setSize(500, 350);
@@ -29,13 +29,15 @@ public class Tree extends GraphicsProgram {
 
 	public void drawTree(double x0, double y0, double len, double angle) {
 
-		stackAddress -= 28;
+		depth++;
 		drawTreeCalls++;
 		println("Create drawTree() stack frame at adress " + toHexString(stackAddress) + ", depth " + depth);
-		depth++;
-
+		stackAddress -= 28;
+		
 		if (len > 2) {
 			
+			// Check is made here because on the last run where we wouldn't draw, depth is
+			// still incremented.
 			if (depth > maxDepth) {
 				maxDepth = depth;
 			}
