@@ -1,5 +1,12 @@
 package programming.set10.ciphers;
 
+/**
+ * Implementation of the "Caesar Cipher".
+ * 
+ * @author PurifyPioneer
+ * @version 1.0
+ * @since 1.0
+ */
 public class CaesarCipher {
 
 	private CryptMode mode;
@@ -19,40 +26,46 @@ public class CaesarCipher {
 	 * @return encryted or decrypted version of the text.
 	 */
 	public String encode(String text) {
-		char[] textCharArray = text.toCharArray();
+		//Text to char array so we can use character arithmetic
+		char[] textCharArray = text.toCharArray(); 
 		char c;
-		int numValue;
-
+		int numValue; // easier readability
+		// We calculate the off set when we have a key that would
+		// generate  a letter outside of our bounds so we can wrap around
+		int offset = 0;
+		
+		// We need the loop and logic in both en- and decrypt, because it's a little different each time
+		// You could safe one loop if you decide in the for loop on each run wheter we need to en- or decrypt
+		// But i think this is a little bit more readable.
 		if (mode == CryptMode.ENCRYPT) {
-			System.out.println("ENCRYPTING...");
 			
+			// Iterate over char array
 			for (int i = 0; i < textCharArray.length; i++) {
 				c = textCharArray[i];
 				numValue = (int)c;
 
-				if (c >= 'A' && c <= 'Z') { // capital letter
+				// If we have an upper case letter
+				if (c >= 'A' && c <= 'Z') {
 					
-					int off = 0;
 					if (numValue + cryptKey > 'Z') { // wrap around upper border (positive key)
-						off = 'Z' - numValue;
-						c = (char) ('A' + (cryptKey - off) -1);
+						offset = 'Z' - numValue;
+						c = (char) ('A' + (cryptKey - offset) -1);
 					} else if (numValue + cryptKey < 'A') { // wrap around lower border (negative key)
-						off = numValue - 'A';
-						c = (char) ('Z' - (cryptKey + off));
+						offset = numValue - 'A';
+						c = (char) ('Z' - (cryptKey + offset));
 					} else { // no wrap around (key in boarders)
 						c = (char) (numValue + cryptKey);
 					}
 
-				} else if (c >= 'a' && c <= 'z') {// lower case letter
+				// If we have a lower case letter
+				} else if (c >= 'a' && c <= 'z') {
 
-					
-					int off = 0;
 					if (numValue + cryptKey > 'z') { // wrap around upper border (positive key)
-						off = 'z' - numValue;
-						c = (char) ('a' + (cryptKey - off) -1);
+						offset = 'z' - numValue;
+						c = (char) ('a' + (cryptKey - offset) -1);
 					} else if (numValue + cryptKey < 'a') { // wrap around lower border (negative key)
-						off = numValue - 'a';
-						c = (char) ('z' - (cryptKey + off));
+						offset = numValue - 'a';
+						c = (char) ('z' - (cryptKey + offset) - 1);
 					} else { // no wrap around (key in boarders)
 						c = (char) (numValue + cryptKey);	}
 
@@ -62,41 +75,34 @@ public class CaesarCipher {
 			}
 
 		} else if (mode == CryptMode.DECRYPT) {
-			System.out.println("DECRYPTING...");
-			/*
-			 * Situation:
-			 * (positive) Key needs to be subtracted from
-			 */
 			
 			for (int i = 0; i < textCharArray.length; i++) {
 				c = textCharArray[i];
 				numValue = (int)c;
-				System.out.print("DEC: " + c);
-				if (c >= 'A' && c <= 'Z') { // capital letter
-					
-					
-					int off = 0;
+				
+				// If we have an upper case letter
+				if (c >= 'A' && c <= 'Z') {
+
 					if (numValue - cryptKey > 'Z') { // wrap around (negative key)
-						off  = 'Z' - numValue;
-						c = (char) ('A' - (cryptKey + off));
+						offset  = 'Z' - numValue;
+						c = (char) ('A' - (cryptKey + offset));
 					} else if (numValue - cryptKey < 'A') { // wrap around (positive key)
-						off =  numValue - 'A';
-						c = (char) ('Z' - (cryptKey - off));
+						offset =  numValue - 'A';
+						c = (char) ('Z' - (cryptKey - offset) + 1);
 					} else {
 						c = (char) (numValue - cryptKey);
 					}
 					
+				// If we have a lower case letter
+				} else if (c >= 'a' && c <= 'z') {
 
-				} else if (c >= 'a' && c <= 'z') {// lower case letter
 
-					
-					int off = 0;
 					if (numValue - cryptKey > 'z') { // wrap around (negative key)
-						off  = 'z' - numValue;
-						c = (char) ('a' - (cryptKey + off));
+						offset  = 'z' - numValue;
+						c = (char) ('a' - (cryptKey + offset) - 1);
 					} else if (numValue - cryptKey < 'a') { // wrap around (positive key)
-						off =  numValue - 'a';
-						c = (char) ('z' - (cryptKey - off));
+						offset =  numValue - 'a';
+						c = (char) ('z' - (cryptKey - offset) + 1);
 					} else {
 						c = (char) (numValue - cryptKey);
 					}
@@ -108,6 +114,8 @@ public class CaesarCipher {
 
 			
 		}
+		// Return a new string that is generated from the
+		// manipulated char array.
 		return new String(textCharArray);
 	}
 
