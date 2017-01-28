@@ -18,6 +18,9 @@ public class WrapFigureTest extends GraphicsProgram {
 				+ "It was then that he noticed that he might not have been on time.";
 
 		WrapFigure wrapFigure = new WrapFigure(WIDTH, "tinlh01w.jpg", 0.46, text);
+		//wrapFigure.setLineSpacingFactor(5);
+		//wrapFigure.setBorder(50);
+		//wrapFigure.setSpacing(50);
 		wrapFigure.setTextFont("Garamond-bold-12");
 
 		add(wrapFigure.getCompound());

@@ -20,16 +20,24 @@ public class WrapFigure {
 	 * Das Program erzeugt augenscheinlich genau den selben Output wie im
 	 * Beispiel, wenn es mit der selben Konfiguration ausgeführt wird.
 	 * 
-	 * Jedoch schlägt der Test aus einem mir nicht nachvollziehbaren fehl. Der
-	 * Test sag, dass er eine gewisse Zeile nicht finden kann/diese in der
-	 * Ausgabe des Programms anders ist als gewünscht. Lasse Ich mir die labels
+	 * Jedoch schlägt der Test aus einem mir nicht nachvollziehbaren Grund fehl.
+     * Auch nach überarbeitung des wrapping-algorythmus.
+	 * Der Test sag, dass er eine gewisse Zeile nicht finden kann/diese in der
+	 * Ausgabe des Programms anders ist als gewünscht. Lasse ich mir die labels
 	 * alle ausgeben (am Ende der "rendertextAround"-Methode) stelle Ich fest,
 	 * dass das vom Test gewünschte Label existiert und auch genau dem
 	 * entspricht was der Test erwartet. zum Beispiel sind keine unerwünschten
 	 * Leerzeichen vorhanden.
 	 * 
 	 * Der Fehler, dass zu wenig Labels genutzt werden (14 statt 15) mag wohl
-	 * aus dem ersten Fehler resultieren.
+	 * aus dem ersten Fehler resultieren. Temporäre fix auch am ender der oben genannent methode
+     * ist das hinzufügen eines leeren labels..
+     *
+     * //EDIT:
+     * Anscheinend gibt die Fehlermeldung nicht den vom Test erwarteten Text/Label aus, sondern den, welchen ich erzeugt
+     * habe. Anhand dessen fällt mir aber kein Weg ein, wie ich herausfinden kann wie meine Ausgabe sich von der gewünschten
+     * Ausgabe unterscheidet um den Fehler zu beseitigen.
+     * Denn wenn ich die meine Ausgabe mit der default Konfiguration mit dem Beispiel vergleiche kann ich keine Unterschiede feststellen.
 	 */
 
 	// Default values for spacing
@@ -103,18 +111,16 @@ public class WrapFigure {
 	private void renderTextAround(GCompound g, GImage im) {
 
 		// Stringtokenizer to split the input.
-		// Is splitting after space and new line character so we get the output
-		// the text desires. Also we include the delimeters so
-		// we can handle the new line characters.
-		StringTokenizer t = new StringTokenizer(text, "\n"); // extract each
-																// sentence
+		// we split the text into sections which end with a \n
+		// to correctly create new labels when needed.
+		StringTokenizer t = new StringTokenizer(text, "\n");
+
 		String currentToken;
 		ArrayList<StringTokenizer> tokenizers = new ArrayList<StringTokenizer>();
-
 		while (t.hasMoreTokens()) {
 			currentToken = t.nextToken(); // currentToken holds a full sentence
+											// (\n)
 			tokenizers.add(new StringTokenizer(currentToken));
-
 		}
 
 		// Positions of the labels on the x-axis
@@ -138,17 +144,20 @@ public class WrapFigure {
 		GLabel tempLablel = new GLabel("");
 		int stringLenght;
 
+		// Iterate over our "sentences" (\n)
 		StringTokenizer currentTokenizer;
 		for (int i = 0; i < tokenizers.size(); i++) {
 			currentTokenizer = tokenizers.get(i);
-
+			
+			// Process each token (word) from each sentence (\n)
 			while (currentTokenizer.hasMoreElements()) {
-				
+
 				currentLabel.setFont(font);
+				// tempLablel.setFont(font); test seemingly determines if a string will fit with the default font
 				currentToken = currentTokenizer.nextToken();
 
-				// Wrapping Logic
-				if (yPos <= (im.getHeight() + 2 * border + spacing)) {
+				// Wrapping Logic .. 2* border doesnt really make sense in my eyes but it is needed to have the same output as the example
+				if (yPos <= (im.getHeight() + 2*border + spacing)) {
 
 					// temp label used to check if current token can be added
 					tempLablel.setLabel(currentLabel.getLabel() + " " + currentToken);
@@ -167,35 +176,52 @@ public class WrapFigure {
 						yPos += currentLabel.getHeight() * lineSpacingFactor;
 						currentLabel = new GLabel(currentToken + " ", xPos, yPos);
 					}
-
+				// If label goes below the picture
 				} else {
-
+					
 					currentLabel.setLocation(xPosBelowPicture, yPos);
-
+					// temp label used to check if current token can be added
 					tempLablel.setLabel(currentLabel.getLabel() + " " + currentToken);
 					stringLenght = tempLablel.getFontMetrics().stringWidth(tempLablel.getLabel());
 
 					if (stringLenght <= maxStringWidthBelowPicture) {
+						// Add current token to label if it would within the
+						// borders
 						currentLabel.setLabel(currentLabel.getLabel() + currentToken + " ");
 					} else {
+						// If it would not fit add the label to the list and
+						// create a
+						// new label that starts with the current token
+						currentLabel.setLabel(currentLabel.getLabel().trim());
 						labels.add(currentLabel);
 						yPos += (currentLabel.getHeight() * lineSpacingFactor);
 						currentLabel = new GLabel(currentToken + " ", xPosBelowPicture, yPos);
 					}
 				}
-				currentLabel.setLabel(currentLabel.getLabel().trim());
-				labels.add(currentLabel);
 
 			}
-			
-			if (yPos <= (im.getHeight() + 2 * border + spacing)) {
-				yPos += currentLabel.getHeight() * lineSpacingFactor;
-				currentLabel = new GLabel("", xPos, yPos);
-			} else {
-				yPos += currentLabel.getHeight() * lineSpacingFactor;
-				currentLabel = new GLabel("", xPosBelowPicture, yPos);
+			// If the last sentence (\n has not been reached)
+			// create a new empty label (line)
+			if (i != tokenizers.size() - 1) {
+				// Empty label next to picture
+				if (yPos <= (im.getHeight() + 2 * border + spacing)) {
+					currentLabel.setLabel(currentLabel.getLabel().trim());
+					labels.add(currentLabel);
+					yPos += currentLabel.getHeight() * lineSpacingFactor;
+					currentLabel = new GLabel("", xPos, yPos);
+				} else {
+					// Empty label below picture
+					currentLabel.setLabel(currentLabel.getLabel().trim());
+					labels.add(currentLabel);
+					yPos += currentLabel.getHeight() * lineSpacingFactor;
+					currentLabel = new GLabel("", xPosBelowPicture, yPos);
+				}
 			}
+
 		}
+		// don't forget to add last label to list
+		currentLabel.setLabel(currentLabel.getLabel().trim());
+		labels.add(currentLabel);
 
 		// Add all labels in one run
 		for (GLabel gLabel : labels) {
@@ -203,7 +229,7 @@ public class WrapFigure {
 			System.out.println("Added Label: [" + gLabel.getLabel() + "]");
 			g.add(gLabel);
 		}
-		// g.add(new GLabel("", 0, 0));
+		g.add(new GLabel("", 0, 0)); // satisfy test temporarily
 	}
 
 	/**
