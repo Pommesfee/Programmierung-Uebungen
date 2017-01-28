@@ -42,21 +42,21 @@ public class ArtificialArt extends GCompound {
 		ground.setFilled(true);
 		tile.add(ground);
 		
-		int key = rd.nextInt(2);
-		switch (key) {
-			case 0:
-				ground.setFillColor(Color.WHITE);
-				generateRectanlges(tile);
-				break;
-			case 1:
-				generateRotatedRectangles(tile);
-				break;
-			case 2:
-				
-				break;
-			default:
-				break;
-		}
+//		int key = rd.nextInt(2);
+//		switch (key) {
+//			case 0:
+//				ground.setFillColor(Color.WHITE);
+//				generateRectanlges(tile);
+//				break;
+//			case 1:
+//				generateRotatedRectangles(tile);
+//				break;
+//			case 2:
+//				
+//				break;
+//			default:
+//				break;
+//		}
 		
 		
 		
