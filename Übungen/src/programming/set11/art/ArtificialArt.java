@@ -20,28 +20,52 @@ import acm.program.GraphicsProgram;
  */
 public class ArtificialArt extends GraphicsProgram {
 
+	// Compound that holds all tiles
 	GCompound gcomp;
 	
+	// Helper to get random values for tiles more easily
 	private static Random rd = new Random();
 	
+	// rowcount of the artificial art piece
 	private int rows;
+	// column count of the artificial art piece
 	private int columns;
+	// size of each tile
 	private int size;
-
+	
+	// default constructor needed so
+	// we can have our test in this class
 	public ArtificialArt() {
 	}
 	
+	/**
+	 * Creates a new piece of artificial art with
+	 * tiles that can each have a random pattern out of 4.
+	 * @param rows rowcount of art-piece
+	 * @param columns columncount of art-piece
+	 * @param size size of each sub-tile
+	 * 			should be >=100px
+	 */
 	public ArtificialArt(int rows, int columns, int size) {
 		
 		gcomp = new GCompound();
 		
 		this.rows = rows;
 		this.columns = columns;
+		
+		// makes sure that when a construcor is called it is ensured
+		// that the tile-size doesn't get too small
+		assert size >= 100 : "Size has to be >= 100 (in pixel)!";
+		
 		this.size = size;
 
 		addTiles();
 	}
 
+	/**
+	 * Generates the individual tiles and adds them to the
+	 * graphics-compound.
+	 */
 	private void addTiles() {
 
 		for (int i = 0; i < rows; i++) {
@@ -51,19 +75,38 @@ public class ArtificialArt extends GraphicsProgram {
 		}
 	}
 	
+	/**
+	 * Returns the current piece of artificial art
+	 * or throws an {@link NullPointerException} when
+	 * the default constructor was used, because it should only
+	 * exists to have the test logic in this class.
+	 * @return
+	 */
 	public GCompound getCompound() {
-		return this.gcomp;
+		if (gcomp != null) {
+			return this.gcomp;
+		} else {
+			throw new NullPointerException("Compound not initialized. Use constructor with arguments instead.");
+		}
 	}
 
+	/**
+	 * Generates a tile with one of the 4 available
+	 * patterns.
+	 * @return compound containing the artificial art
+	 */
 	private GCompound generateTile() {
 
 		GCompound tile = new GCompound();
 
+		// Constructs a tile with a random color
+		// that acts as a background
 		GRect ground = new GRect(size, size);
 		ground.setFillColor(getRandomColor());
 		ground.setFilled(true);
 		tile.add(ground);
 		
+		// "randomly" select one out of 4 available patterns
 		int key = rd.nextInt(4);
 		switch (key) {
 			case 0:
@@ -79,13 +122,23 @@ public class ArtificialArt extends GraphicsProgram {
 				generateRandomColorEachPixel(tile);
 				break;
 			default:
-				break;
+				// This case does never get executed
+				// to be sure we use an assertion.
+				assert false : "Non existing pattern!";
 		}
 
 		return tile;
 	}
 	
+	/**
+	 * Generates a pattern with squares or boxes
+	 * that are offset from the top left corner by a random value between 10 and 50
+	 * and get smaller in size. Each square has a random color.
+	 * @param parent
+	 */
 	private void generateOverlappingBoxes(GCompound parent) {
+		
+		assert parent!= null : "Parent was null!";
 		
 		GRect rect;
 		int factor = rd.nextInt(50) + 11; 
@@ -99,7 +152,17 @@ public class ArtificialArt extends GraphicsProgram {
 		
 	}
 	
+	/**
+	 * Generates a pattern that is similar to a pyramid. The pyramid can have between
+	 * 4 and 8 layers. Each layer has its own random color.
+	 * The pyramid however may not fit perfectly into the available space because
+	 * the boxes that make up each layer can't be distributed perfectly over the size of the tile
+	 * if each box should have the same size.
+	 * @param parent
+	 */
 	private void generatePyramid(GCompound parent) {
+		
+		assert parent!= null : "Parent was null!";
 		
 		int layerCount = rd.nextInt(4) + 5;
 		
@@ -127,10 +190,18 @@ public class ArtificialArt extends GraphicsProgram {
 		
 	}
 	
+	/**
+	 * Generates between 5 and 10 bars that extend from top to bottom and
+	 * each have a random color.
+	 * The same problem as with the pyramids can occur because the available space
+	 * can in some cases not be distributed evenly over all bars.
+	 * @param parent
+	 */
 	private void generateRandomBars(GCompound parent) {
 		
+		assert parent!= null : "Parent was null!";
+		
 		GRect rect;
-		Color c;
 		int count = rd.nextInt(5) + 6;
 		int barSize = size/count;
 		
@@ -144,7 +215,14 @@ public class ArtificialArt extends GraphicsProgram {
 		
 	}
 	
+	/**
+	 * Assigns each pixel a random color by drawing many small rectangles
+	 * with a random color.
+	 * @param parent
+	 */
 	private void generateRandomColorEachPixel(GCompound parent) {
+		
+		assert parent!= null : "Parent was null!";
 		
 		GRect rect;
 		Color c;
@@ -164,10 +242,13 @@ public class ArtificialArt extends GraphicsProgram {
 	}
 	
 	/**
+	 * SAME PATTERN AS IN TASK
 	 * Generates rectangles and adds them to the specific component.
 	 * @param parent
 	 */
 	private void generateRectanlges(GCompound parent) {
+		
+		assert parent!= null : "Parent was null!";
 		
 		int off = size / 11;
 		
@@ -186,6 +267,8 @@ public class ArtificialArt extends GraphicsProgram {
 	 * @param parent
 	 */
 	private void generateLayer(int startXY, int off, int size, GCompound parent) {
+		
+		assert parent!= null : "Parent was null!";
 		
 		GRect rect = new GRect(startXY, startXY, size - off, off);
 		rect.setFillColor(getRandomColor());
@@ -209,8 +292,14 @@ public class ArtificialArt extends GraphicsProgram {
 		
 	}
 
+	/**
+	 * SAME PATTERN AS IN TASK
+	 * @param parent
+	 */
 	private void generateRotatedRectangles(GCompound parent) {
 
+		assert parent!= null : "Parent was null!";
+		
 		GPoint[] points = new GPoint[4];
 		GPolygon poly;
 		GRect rect;
@@ -244,13 +333,16 @@ public class ArtificialArt extends GraphicsProgram {
 		int g = rd.nextInt(255);
 		int b = rd.nextInt(255);
 
+		// Assert that rgb values are between 0 and 255 before we return the color
+		assert (r >= 0 && r <= 255) || (g >= 0 && g <= 255) || (b >= 0 && b <= 255) : "Error while creating color";
+
 		return new Color(r, g, b);
 	}
 
 	@Override
 	public void run() {
 		
-		ArtificialArt a = new ArtificialArt(5, 3, 200);
+		ArtificialArt a = new ArtificialArt(5, 3, 100);
 		setSize((int)a.getCompound().getWidth(), (int)a.getCompound().getHeight());
 		
 		add(a.getCompound());
