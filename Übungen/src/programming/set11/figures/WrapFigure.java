@@ -157,11 +157,12 @@ public class WrapFigure {
 		// Keeps track where the next label needs to be positioned on the y-axis
 		int yPos = border;
 
+		//draws two lines that indicate the maximum space available for text
 		GLine line = new GLine(border + spacing + im.getWidth(), 10, border + spacing + im.getWidth(), im.getHeight());
 		line.setColor(Color.GREEN);
 		g.add(line);
 		line = new GLine(border + spacing + im.getWidth() + maxStringWidth, 10,
-				border + spacing + im.getWidth() + maxStringWidth, im.getHeight());
+		border + spacing + im.getWidth() + maxStringWidth, im.getHeight());
 		line.setColor(Color.RED);
 		g.add(line);
 
@@ -174,8 +175,8 @@ public class WrapFigure {
 		currentLabel.setLocation(xPos, yPos);
 		GLabel tempLablel = new GLabel("");
 		int stringLenght;
-		boolean firstLabel = true;
 
+		
 		// Iterate over our "sentences" (\n)
 		StringTokenizer currentTokenizer;
 		for (int i = 0; i < tokenizers.size(); i++) {
@@ -193,7 +194,7 @@ public class WrapFigure {
 				if (yPos <= (im.getHeight() + border + currentLabel.getHeight() + spacing)) {
 
 					// temp label used to check if current token can be added
-					tempLablel.setLabel(currentLabel.getLabel() + " " + currentToken);
+					tempLablel.setLabel(currentLabel.getLabel() + currentToken);
 					stringLenght = tempLablel.getFontMetrics().stringWidth(tempLablel.getLabel());
 
 					if (stringLenght <= maxStringWidth) {
@@ -216,7 +217,7 @@ public class WrapFigure {
 
 					currentLabel.setLocation(xPosBelowPicture, yPos);
 					// temp label used to check if current token can be added
-					tempLablel.setLabel(currentLabel.getLabel() + " " + currentToken);
+					tempLablel.setLabel(currentLabel.getLabel() + currentToken);
 					stringLenght = tempLablel.getFontMetrics().stringWidth(tempLablel.getLabel());
 
 					if (stringLenght <= maxStringWidthBelowPicture) {
@@ -266,9 +267,25 @@ public class WrapFigure {
 		// Add all labels in one run
 		for (GLabel gLabel : labels) {
 			// Print out all labels
+			
+			if (gLabel.getY() <= (im.getHeight() + border + currentLabel.getHeight() + spacing)) {
+				System.out.print(gLabel.getFontMetrics().stringWidth(gLabel.getLabel()) + "/" + maxStringWidth);
+				System.out.println(" " + gLabel.getLabel());
+			} else {
+				System.out.print(gLabel.getFontMetrics().stringWidth(gLabel.getLabel()) + "/" + maxStringWidthBelowPicture);
+				System.out.println(" " + gLabel.getLabel());
+			}
+			//System.out.println(gLabel.getFont().getFontName());
+			
 			g.add(gLabel);
-
 		}
+		
+		System.out.println(currentLabel.getFontMetrics().stringWidth(" "));
+		System.out.println(currentLabel.getFontMetrics().stringWidth("the"));
+		System.out.println(currentLabel.getFontMetrics().stringWidth("heavy"));
+		System.out.println(currentLabel.getFontMetrics().stringWidth("The alley was unusually dark"));
+		System.out.println(currentLabel.getFontMetrics().stringWidth("The alley was unusually"));
+
 	}
 
 	/**
