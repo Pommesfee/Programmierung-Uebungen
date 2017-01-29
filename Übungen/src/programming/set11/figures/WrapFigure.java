@@ -190,8 +190,8 @@ public class WrapFigure {
 				// string will fit with the default font
 				currentToken = currentTokenizer.nextToken();
 
-				// Wrapping Logic
-				if (yPos <= (im.getHeight() + border + currentLabel.getHeight() + spacing)) {
+				// Wrapping Logic						// If we want to be more like the example
+				if (yPos <= (im.getHeight() + border /* + currentLabel.getHeight() */+ spacing)) {
 
 					// temp label used to check if current token can be added
 					tempLablel.setLabel(currentLabel.getLabel() + currentToken);
