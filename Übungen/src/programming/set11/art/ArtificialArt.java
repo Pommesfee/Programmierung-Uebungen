@@ -7,16 +7,34 @@ import acm.graphics.GCompound;
 import acm.graphics.GPoint;
 import acm.graphics.GPolygon;
 import acm.graphics.GRect;
+import acm.program.GraphicsProgram;
 
-public class ArtificialArt extends GCompound {
+/**
+ * Creates some artificial art.
+ * It does however not verify if the art
+ * does fit pixel-perfect in a tile.
+ * 
+ * @author PurifyPioneer
+ * @version 1.0
+ * @since 1.0
+ */
+public class ArtificialArt extends GraphicsProgram {
 
+	GCompound gcomp;
+	
 	private static Random rd = new Random();
 	
 	private int rows;
 	private int columns;
 	private int size;
 
+	public ArtificialArt() {
+	}
+	
 	public ArtificialArt(int rows, int columns, int size) {
+		
+		gcomp = new GCompound();
+		
 		this.rows = rows;
 		this.columns = columns;
 		this.size = size;
@@ -28,9 +46,13 @@ public class ArtificialArt extends GCompound {
 
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
-				add(generateTile(), i * size, j * size);
+				gcomp.add(generateTile(), i * size, j * size);
 			}
 		}
+	}
+	
+	public GCompound getCompound() {
+		return this.gcomp;
 	}
 
 	private GCompound generateTile() {
@@ -42,49 +64,103 @@ public class ArtificialArt extends GCompound {
 		ground.setFilled(true);
 		tile.add(ground);
 		
-//		int key = rd.nextInt(2);
-//		switch (key) {
-//			case 0:
-//				ground.setFillColor(Color.WHITE);
-//				generateRectanlges(tile);
-//				break;
-//			case 1:
-//				generateRotatedRectangles(tile);
-//				break;
-//			case 2:
-//				
-//				break;
-//			default:
-//				break;
-//		}
-		
-		
-		
-//		// Circles
-//		GOval ov;
-//		GRect re;
-//		int lastSize = size;
-//		int lastOffset = 0;
-//
-//		for (int i = 0; i < 5; i++) {
-//			System.out.println(lastSize);
-//			if (i % 2 == 88888) {
-//				ov = new GOval(lastSize - 1, lastSize - 1);
-//				ov.setColor(getRandomColor());
-//				ov.setFilled(true);
-//				tile.add(ov);
-//			} else {
-//				GLine gl = new GLine(size/2, size/2, lastSize, size/2);
-//				gl.movePolar(0, 0);
-//				tile.add(gl);
-//				lastOffset = (int) (size - gl.getEndPoint().getX());
-//				lastSize = size - (2* lastOffset);
-//				re = new GRect(lastOffset, lastOffset, lastSize, lastSize);
-//				tile.add(re);
-//			}
-//		}
+		int key = rd.nextInt(4);
+		switch (key) {
+			case 0:
+				generateOverlappingBoxes(tile);
+				break;
+			case 1:
+				generateRandomBars(tile);
+				break;
+			case 2:
+				generatePyramid(tile);
+				break;
+			case 3:
+				generateRandomColorEachPixel(tile);
+				break;
+			default:
+				break;
+		}
 
 		return tile;
+	}
+	
+	private void generateOverlappingBoxes(GCompound parent) {
+		
+		GRect rect;
+		int factor = rd.nextInt(50) + 11; 
+		
+		for (int i = 0; i < 5; i++) {
+			rect = new GRect(i*factor, i*factor, size - i*factor, size - i*factor);
+			rect.setFillColor(getRandomColor());
+			rect.setFilled(true);
+			parent.add(rect);
+		}
+		
+	}
+	
+	private void generatePyramid(GCompound parent) {
+		
+		int layerCount = rd.nextInt(4) + 5;
+		
+		int tileSize = size/layerCount;
+		int posX = size/2 - tileSize/2;
+		GRect rect;
+		Color c;
+		int tilesPerLayer = 1;
+		
+		for (int i = 0; i < layerCount; i++) {
+			
+			c = getRandomColor();
+			
+			for (int j = 0; j < tilesPerLayer; j++) {
+				
+				rect = new GRect(posX + (j*tileSize), i*tileSize, tileSize, tileSize);
+				rect.setFillColor(c);
+				rect.setFilled(true);
+				parent.add(rect);
+				
+			}
+			posX -= tileSize/2;
+			tilesPerLayer++;
+		}
+		
+	}
+	
+	private void generateRandomBars(GCompound parent) {
+		
+		GRect rect;
+		Color c;
+		int count = rd.nextInt(5) + 6;
+		int barSize = size/count;
+		
+		for (int i = 0; i < count; i++) {
+			
+			rect = new GRect(i*barSize, 0, barSize, size);
+			rect.setFillColor(getRandomColor());
+			rect.setFilled(true);
+			parent.add(rect);
+		}
+		
+	}
+	
+	private void generateRandomColorEachPixel(GCompound parent) {
+		
+		GRect rect;
+		Color c;
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				
+				c = getRandomColor();
+				
+				rect = new GRect(i, j, 1, 1);
+				rect.setColor(c);
+				rect.setFillColor(c);
+				rect.setFilled(true);
+				parent.add(rect);
+			}
+		}
+		
 	}
 	
 	/**
@@ -171,4 +247,13 @@ public class ArtificialArt extends GCompound {
 		return new Color(r, g, b);
 	}
 
+	@Override
+	public void run() {
+		
+		ArtificialArt a = new ArtificialArt(5, 3, 200);
+		setSize((int)a.getCompound().getWidth(), (int)a.getCompound().getHeight());
+		
+		add(a.getCompound());
+	}
+	
 }
